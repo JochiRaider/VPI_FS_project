@@ -1,5 +1,8 @@
 [
     {
     "module" : "dir_lister"
+    },
+    {
+    "module" : "environment"
     }
 ]
