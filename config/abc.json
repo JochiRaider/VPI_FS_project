@@ -4,5 +4,8 @@
     },
      {
     "module" : "enviro"
+    },
+     {
+    "module" : "sleeper"
     }
 ]
