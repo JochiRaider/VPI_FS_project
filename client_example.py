@@ -51,8 +51,8 @@ class GitImporter(object):
         return mod
 
 def connect_to_github():
-    gh = login(username='JochiRaider',token=' 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') # 2FA accounts: replace password= with token="your token"
-    repo = gh.repository('JochiRaider', 'VPI_FS_project')
+    gh = login(username='',token='') # 2FA accounts: replace password= with token="your token"
+    repo = gh.repository('', 'VPI_FS_project')
     branch = repo.branch("main")
     return gh, repo, branch
 
