@@ -1,2 +1,2 @@
 def run(**args):
-  print('found it, thanks')
+  print('found it, thanks', args)
