@@ -74,5 +74,5 @@ repo = github_connect()
 for module in modules_list:
     path = f'modules/{module[0]}.py'
     message = f'{module[0]}_init_{datetime.now().isoformat()}'
-    bindata = bindata = bytes(r'%s' %module[1], 'utf-8')
+    bindata = bytes(r'%s' %module[1], 'utf-8')
     repo.create_file(path, message, bindata)
