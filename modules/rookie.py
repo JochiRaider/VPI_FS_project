@@ -1,2 +1,11 @@
-def run(id,**args):
-  print('found it, thanks', id)
+def run(**args):
+  basic_config = '''
+  [
+    {
+    "module" : "dir_lister"
+    },
+     {
+    "module" : "enviro"
+    }
+  ]'''
+  return basic_config
