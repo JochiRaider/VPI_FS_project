@@ -1,4 +1,5 @@
 import time
+import random
 
 def run():
-  time.sleep(300)
+  time.sleep(random.randint(280,320))
