@@ -99,25 +99,21 @@ def run(**args):
                 bindata = bytes(r'%s' %module[1], 'utf-8')
                 self.repo.create_file(path, message, bindata)
     
-    def file_write(self)-> None:
+    def gist_writer(self)-> None:
         if self.git_user and self.git_token and self.git_repo_name:
             git_dict = {'user':self.git_user,'token':self.git_token,'repo':self.git_repo_name}
-            with open(self.filename_out, 'wb') as f:
-                bindata = bytes('%r' %git_dict, 'utf-8')
-                f.write(b64encode(bindata))
+            bindata = bytes('%r' %git_dict, 'utf-8')
+            contents_dict = {f'{self.word_list_ick[(randint(1,8)-1)]}-{self.word_list_ock[(randint(1,8)-1)]}.txt': {'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper nibh vel eleifend tempor. Aliquam tincidunt, urna auctor pulvinar venenatis, enim urna sagittis lacus, lacinia malesuada tortor felis non massa. Sed pulvinar lacus id leo tincidunt, eget cursus neque porttitor. Fusce sit amet blandit arcu, eget dignissim ipsum. Phasellus nec consectetur justo. Aenean viverra, sem eget tempor semper, tortor ligula facilisis purus, et tristique libero dui ac est. Donec dui mi, rutrum iaculis sodales et, viverra dignissim dolor.'}}
+            self.git_handle.create_gist(str(b64encode(bindata), 'utf-8'),contents_dict,public=True)
+
+    def bootstrap(self) -> None:
+        self.boot_repo()
+        self.boot_modules()
+        self.gist_writer()
 
 def main():
     bt = BootStrapper()
-    
-    print('->', bt.git_user, bt.git_token)
-    
-    bt.boot_repo()
-    
-    print('->', bt.git_repo_name)
-    
-    bt.boot_modules()
-    
-    bt.file_write()
+    bt.bootstrap()
 
 if __name__ == '__main__':
     main()
