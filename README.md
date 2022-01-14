@@ -132,9 +132,13 @@ This is the only non standard library you need to use the software.
 ## Usage
 
 This is a Github-based C2 (Command and Control) server written in Python 3. 
+  
   The “bootstrapper” is the constructor for the C2 server repository. It contains the code for the modules that the clients can run, information on the host of the server, and the structure of the entire repository.
+  
   Once the “client” program is executed on an infected machine, it will periodically check a specified Github repository to receive commands. It determines the correct repository via the gist. When the infected machine makes its first communication with the C2 server,  a new file with the machine’s information in the “config” directory. This file tells the infected machine which module from the “modules” directory to run and can be edited to allow for custom instructions for each machine in the botnet. 
+  
   The “modules” directory is, predictably, where the code for the modules is kept. Each module is essentially a task that the server can tell the clients to perform. The most notable modules we’ve included are  “dirlister.py”, “shell_module.py”, and “sleep.py”. Dirlister.py makes the client list all of the files in the present working directory. Shell_module.py allows the user of the host machine to open a reverse shell on a client of their choosing. sleep.py puts the client into a standby state so  it can constantly listen for new instructions from the server.
+  
   The “config” directory contains the personalized instructions for each client. As stated before, each client has its own config file which can be edited to customize the instructions for each machine.
 
 
