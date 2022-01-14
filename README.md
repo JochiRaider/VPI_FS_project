@@ -176,8 +176,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Aaron - jochikahn@gmail.com
+Aaron - jochikahn@gmail.com  
+
 Elijah - elijahbeach99@gmail.com
+
 James - 
 Project Link: [https://github.com/JochiRaider/VPI_FS_project](https://github.com/JochiRaider/VPI_FS_project)
 
