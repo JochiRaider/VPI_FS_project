@@ -103,7 +103,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is the only non standard libary you need to use the software.
+This is the only non standard library you need to use the software.
 * GitHub3
   ```sh
    pip install github3.py
@@ -115,14 +115,14 @@ This is the only non standard libary you need to use the software.
    ```sh
    git clone https://github.com/JochiRaider/VPI_FS_project.git
    ```
-3. Setup a gist with a token base 64 encoded in the description 
+3. Set Up a gist with a token base 64 encoded in the description 
    <img src="images/token_gist.png" alt="token" style="display: block; height: auto; border: 0; width: 680px; max-width: 100%;" width="680">
    
    
    
 4. Add gist id to bootstrapper on line 91
    <img src="images/token_gist_code.png" alt="token gist" style="display: block; height: auto; border: 0; width: 680px; max-width: 100%;" width="680">
-5. Run the bootstrapper in your perferred python shell
+5. Run the bootstrapper in your preferred python shell
 6. Add the username of the target account to the client file on line 15
    <img src="images/client_username.png" alt="token gist" style="display: block; height: auto; border: 0; width: 680px; max-width: 100%;" width="680">
 7. The client file is now ready to be executed on a target system
@@ -205,3 +205,4 @@ Project Link: [https://github.com/JochiRaider/VPI_FS_project](https://github.com
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/aaron-kahn/
 [product-screenshot]: images/shell_pop.png
+
