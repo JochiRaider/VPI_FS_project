@@ -98,12 +98,11 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is the only non standard library you need to use the software.
+This is the only non-standard library you need.
 * GitHub3
   ```sh
    pip install github3.py
