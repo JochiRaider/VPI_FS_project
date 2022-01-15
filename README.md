@@ -134,12 +134,18 @@ This is the only non standard library you need to use the software.
 
 This is a Github-based C2 (Command and Control) server written in Python 3. 
   
-  The bootstrapper is the constructor for the C2 server repository. It contains the code for the modules that the clients can run, information on the host of the server, and the structure of the entire repository.
-  <img src="images/usage_01.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">
-  Once the client program is executed on an infected machine, it will periodically check a specified Github repository to receive commands. It determines the correct repository via the gist. When the infected machine makes its first communication with the C2 server,  a new file with the machine’s information in the config directory. This file tells the infected machine which module from the modules directory to run and can be edited to allow for custom instructions for each machine in the botnet. 
-  <img src="images/usage_02.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">
-  The modules directory is, predictably, where the code for the modules is kept. Each module is essentially a task that the server can tell the clients to perform. The most notable modules we’ve included are  dir_lister, enviro, shell_module, and sleep. Dir_lister makes the client list all of the files in the present working directory. Enviro copies the hosts enviromental variables to the data section in the repo. Shell_module opens a reverse shell on a client of their choosing. Sleep puts the client into a standby state so that it will wait for a set time then check for new instructions from the server.
-  <img src="images/usage_03.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">
+  The bootstrapper is the constructor for the C2 server repository. It contains the code for the modules that the clients can run, information on the host of the server, and the structure of the entire repository.  
+  
+  <img src="images/usage_01.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">   
+  
+  Once the client program is executed on an infected machine, it will periodically check a specified Github repository to receive commands. It determines the correct repository via the gist. When the infected machine makes its first communication with the C2 server,  a new file with the machine’s information in the config directory. This file tells the infected machine which module from the modules directory to run and can be edited to allow for custom instructions for each machine in the botnet.    
+  
+  <img src="images/usage_02.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">   
+  
+  The modules directory is, predictably, where the code for the modules is kept. Each module is essentially a task that the server can tell the clients to perform. The most notable modules we’ve included are  dir_lister, enviro, shell_module, and sleep. Dir_lister makes the client list all of the files in the present working directory. Enviro copies the hosts enviromental variables to the data section in the repo. Shell_module opens a reverse shell on a client of their choosing. Sleep puts the client into a standby state so that it will wait for a set time then check for new instructions from the server.   
+  
+  <img src="images/usage_03.png" alt="token gist" style="display: block; height: auto; border: 0; width: auto; max-width: 100%;" width="680">   
+  
   The config directory contains the personalized instructions for each client. As stated before, each client has its own config file which can be edited to customize the instructions for each machine.
 
 
