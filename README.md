@@ -105,7 +105,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is the only non standard library you need to use the software.
+This is the only non-standard library you need to use the software.
 * GitHub3
   ```sh
    pip install github3.py
