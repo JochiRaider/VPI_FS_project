@@ -29,10 +29,12 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/JochiRaider/VPI_FS_project">
-    <img src="images/logo.png" alt="Logo" style="display: block; height: auto; border: 0; width: 680px; max-width: 100%;>
+  <a href="https://github.com/JochiRaider/VPI_FS_project">  
+    
+  <img src="images/logo.png" alt="Logo" style="display: block; height: auto; border: 0; width: 680px; max-width: 100%;>
   </a>
-
+  
+                                               
 <h3 align="center">GitHub based C2 Server</h3>
 
   <p align="center">
