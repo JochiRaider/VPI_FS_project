@@ -186,12 +186,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Aaron - jochikahn@gmail.com  
-
-Elijah - elijahbeach99@gmail.com
-
-James - jedaniel1999@gmail.com   
-
 Project Link: [https://github.com/JochiRaider/VPI_FS_project](https://github.com/JochiRaider/VPI_FS_project)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
