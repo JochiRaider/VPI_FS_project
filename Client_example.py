@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-his is a Python script that uses the GitHub API to retrieve and execute modules from a remote repository. The script has several functions that work together to allow a client to retrieve a list of tasks from a configuration file on the remote repository, execute those tasks, and then update the repository with the results of the executed tasks.
+This is a Python script that uses the GitHub API to retrieve and execute modules from a remote repository. The script has several functions that work together to allow a client to retrieve a list of tasks from a configuration file on the remote repository, execute those tasks, and then update the repository with the results of the executed tasks.
 
 The script begins by importing several libraries, including the base64, importlib, random, json, time, threading, and queue libraries, as well as the GitHub library from the PyGithub module. It then sets several constants, including the GitHub username of the repository owner, the name of the configuration file, and the name of the repository.
 
