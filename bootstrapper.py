@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
+'''
+This script is a Python script that sets up a new GitHub repository and creates a gist. It appears to be a bootstrapper for the initial setup of a project. The main components of the script are as follows:
 
+1. Imports: Required libraries are imported.
+2. BootStrapper class: This class contains several attributes and methods to bootstrap the setup process.
+    __init__: Initializes the class with predefined module code, word lists, and other necessary attributes.
+    boot_repo: Checks if there's an existing repository with 'QTRW' in its name; if not, it creates a new repository with a random name containing 'QTRW'.
+    boot_modules: Uploads the predefined module code to the GitHub repository if it's newly created.
+    gist_writer: Creates a public gist containing a Lorem Ipsum text file and stores the GitHub user, token, and repository name encoded in the gist's description.
+    bootstrap: A method that calls boot_repo, boot_modules, and gist_writer to perform the bootstrap process.
+3. main: The main function that initializes the BootStrapper and calls the bootstrap method.
+-ChatGPT/GPT-4 
+
+'''
 from base64 import b64decode, b64encode
 from github3 import gists, login, GitHub
 from random import randint
