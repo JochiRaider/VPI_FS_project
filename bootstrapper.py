@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
 '''
-This script is a Python script that sets up a new GitHub repository and creates a gist. It appears to be a bootstrapper for the initial setup of a project. The main components of the script are as follows:
+Initialization (__init__ method): Upon instantiation of a BootStrapper object, various payloads are defined. These payloads are blocks of code (Python scripts) that can be run on a compromised host to carry out various tasks:
 
-1. Imports: Required libraries are imported.
-2. BootStrapper class: This class contains several attributes and methods to bootstrap the setup process.
-    __init__: Initializes the class with predefined module code, word lists, and other necessary attributes.
-    boot_repo: Checks if there's an existing repository with 'QTRW' in its name; if not, it creates a new repository with a random name containing 'QTRW'.
-    boot_modules: Uploads the predefined module code to the GitHub repository if it's newly created.
-    gist_writer: Creates a public gist containing a Lorem Ipsum text file and stores the GitHub user, token, and repository name encoded in the gist's description.
-    bootstrap: A method that calls boot_repo, boot_modules, and gist_writer to perform the bootstrap process.
-3. main: The main function that initializes the BootStrapper and calls the bootstrap method.
+stage_1: A script that returns a JSON configuration with the modules "dir_lister", "enviro", "sleep", and "stage_2_qrw".
+stage_2_qrw: A script that returns a JSON configuration with the modules "shell_module" and "sleep24h".
+dir_lister: A script that lists the contents of the current directory.
+enviro: A script that returns the current environment variables.
+sleep: A script that makes the program sleep for a random amount of time between 10 and 15 seconds.
+sleep24h: A script that makes the program sleep for a time close to 24 hours.
+shell_module: A script that attempts to connect to a specific IP address and port, and opens a reverse shell if successful.
+Establishing Connection with GitHub (boot_repo method): This method checks if there is already a repository with 'QTRW' in its name. If it exists, it sets the repository for further use. If not, it creates a new repository with a random name following a specific pattern.
+
+Uploading Modules to GitHub (boot_modules method): This method uploads the pre-defined payloads to the GitHub repository. These payloads are uploaded as Python scripts (.py files) in a directory named "modules".
+
+Gist Creation (gist_writer method): This method creates a GitHub Gist with the GitHub username, token, and repository name encoded in Base64 format as its description. The Gist contains a text file with a random name and a Lorem Ipsum text as its content. The ID of the created Gist is then written to a local text file.
+
+Bootstrap Procedure (bootstrap method): This method puts together the previous three operations (establishing connection with GitHub, uploading modules, and creating a Gist).
+
+Main Function: This function creates a BootStrapper object and runs the bootstrap method.
 -ChatGPT/GPT-4 
 
 '''
